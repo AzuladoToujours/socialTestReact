@@ -10,13 +10,15 @@ class Signup  extends Component {
             name: "",
             email: "",
             password: "",
-            error: ""
+            error: "",
+            open: false
         }
     }
 
     //Method to trate the info of the inputs...
 
     handleChange = (name) => (event) => {
+        this.setState({error: ""})
         this.setState({[name]: event.target.value })
     }
     
@@ -24,12 +26,47 @@ class Signup  extends Component {
     //handleChange to get the info.
     //The value is to change the state immediately
 
-    render() {
-        const {name, email, password} = this.state;
-       return ( 
-        <div className = 'container'>
-        <h2 className = 'mt-5 mb-5'>SIGNUP</h2>
+    clickSubmit = event => {
+        //This method prevent the refresh of the browser
+        event.preventDefault()
+        const {name, email, password} = this.state
+        const user = {
+            name,
+            email,
+            password
+        };
 
+        this.signup(user)
+        .then(data => {
+            if(data.error) this.setState({error : data.error})
+                else this.setState({
+                    error: "",
+                    name: "",
+                    email: "",
+                    password: "",
+                    open: true
+                });
+        });
+    };
+
+    signup = (user) => {
+        //To make the POST request, we can use axios, but we will use fetch...
+        return fetch("http://localhost:8080/signup", {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                "Content-type": 'application/json' 
+            },
+            body: JSON.stringify(user)
+        })
+        .then(response => {
+            //We use this method to show what the backend shows... like "Name required"
+            return response.json()
+        })
+        .catch(err => console.log(err))
+    }
+
+    signUpForm = (name, email, password) => (
         <form>
             <div className = 'form-group'>
                 <label className = 'text-muted'>Name</label>
@@ -45,8 +82,27 @@ class Signup  extends Component {
                 <label className = 'text-muted'>Password</label>
                 <input onChange = {this.handleChange('password')} type = 'password' className = 'form-control' value = {password}/>
             </div>
-            <button className = 'btn btn raised btn-primary'>SUBMIT</button>
+            <button onClick = {this.clickSubmit} className = 'btn btn raised btn-primary'>
+                SUBMIT
+            </button>
         </form>
+    )
+
+    render() {
+        const {name, email, password, error, open} = this.state;
+       return ( 
+        <div className = 'container'>
+            <h2 className = 'mt-5 mb-5'>SIGNUP</h2>
+
+            <div className = 'alert alert-danger' style = {{display: error ? "" : "none"}}>
+                {error}
+            </div>
+
+            <div className = 'alert alert-info' style = {{display: open ? "" : "none"}}>
+                New account succesfuly created. Please sign in.
+            </div>
+        
+            {this.signUpForm(name, email, password)};
         </div>
         );
     };
