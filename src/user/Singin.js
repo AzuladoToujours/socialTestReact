@@ -1,17 +1,17 @@
 import React, {Component} from 'react'
+import {Redirect} from 'react-router-dom'
 
 
-class Signup  extends Component {
+class Signin  extends Component {
 
     //The info will be managed in the state
     constructor() {
         super()
         this.state = {
-            name: "",
             email: "",
             password: "",
             error: "",
-            open: false
+            redirectToReferer: false
         }
     }
 
@@ -21,6 +21,16 @@ class Signup  extends Component {
         this.setState({error: ""})
         this.setState({[name]: event.target.value })
     }
+
+    authenticate  (jwt, next) {
+        //typeof operator, window object...
+        if (typeof window !== "undefined"){
+            //name of the item, and the value
+            localStorage.setItem('jwt' , JSON.stringify(jwt))
+            //When the user authenticates, next get executed, so redirect becomes true
+            next();
+        }
+    }
     
     //With the event onChange we'll know what changes has been made, then pass it through the method 
     //handleChange to get the info.
@@ -29,29 +39,30 @@ class Signup  extends Component {
     clickSubmit = event => {
         //This method prevent the refresh of the browser
         event.preventDefault()
-        const {name, email, password} = this.state
+        const {email, password} = this.state
         const user = {
-            name,
             email,
             password
         };
 
-        this.signup(user)
+        this.signin(user)
         .then(data => {
-            if(data.error) this.setState({error : data.error})
-                else this.setState({
-                    error: "",
-                    name: "",
-                    email: "",
-                    password: "",
-                    open: true
-                });
+            if(data.error){
+                this.setState({error : data.error});
+            } 
+                else {
+                    // authenticate user
+                    this.authenticate(data, () => {
+                        this.setState({redirectToReferer: true})
+                    });
+                    
+                }
         });
     };
 
-    signup = (user) => {
+    signin = (user) => {
         //To make the POST request, we can use axios, but we will use fetch...
-        return fetch("http://localhost:8080/signup", {
+        return fetch("http://localhost:8080/signin", {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -66,13 +77,9 @@ class Signup  extends Component {
         .catch(err => console.log(err))
     }
 
-    signUpForm = (name, email, password) => (
+    signInForm = (email, password) => (
         <form>
-            <div className = 'form-group'>
-                <label className = 'text-muted'>Name</label>
-                <input onChange = {this.handleChange('name')} type = 'text' className = 'form-control' value = {name}/>
-            </div>
-
+            
             <div className = 'form-group'>
                 <label className = 'text-muted'>Email</label>
                 <input onChange = {this.handleChange('email')} type = 'email' className = 'form-control' value = {email}/>
@@ -83,26 +90,26 @@ class Signup  extends Component {
                 <input onChange = {this.handleChange('password')} type = 'password' className = 'form-control' value = {password}/>
             </div>
             <button onClick = {this.clickSubmit} className = 'btn btn raised btn-primary'>
-                SUBMIT
+                SIGN IN
             </button>
         </form>
     )
 
     render() {
-        const {name, email, password, error, open} = this.state;
+        const {email, password, error, redirectToReferer} = this.state;
+
+        if (redirectToReferer){
+            return <Redirect to = '/'/>
+        }
        return ( 
         <div className = 'container'>
-            <h2 className = 'mt-5 mb-5'>SIGNUP</h2>
+            <h2 className = 'mt-5 mb-5'>SIGN IN</h2>
 
             <div className = 'alert alert-danger' style = {{display: error ? "" : "none"}}>
                 {error}
             </div>
-
-            <div className = 'alert alert-info' style = {{display: open ? "" : "none"}}>
-                New account succesfuly created. Please sign in.
-            </div>
         
-            {this.signUpForm(name, email, password)}
+            {this.signInForm(email, password)}
             
         </div>
         );
@@ -110,4 +117,5 @@ class Signup  extends Component {
 }
        
 
-export default Signup;
+export default Signin;
+
