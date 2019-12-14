@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {signUp} from '../auth/Auth'
 
 
 class Signup  extends Component {
@@ -36,7 +37,7 @@ class Signup  extends Component {
             password
         };
 
-        this.signup(user)
+        signUp(user)
         .then(data => {
             if(data.error) this.setState({error : data.error})
                 else this.setState({
@@ -49,22 +50,7 @@ class Signup  extends Component {
         });
     };
 
-    signup = (user) => {
-        //To make the POST request, we can use axios, but we will use fetch...
-        return fetch("http://localhost:8080/signup", {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                "Content-type": 'application/json' 
-            },
-            body: JSON.stringify(user)
-        })
-        .then(response => {
-            //We use this method to show what the backend shows... like "Name required"
-            return response.json()
-        })
-        .catch(err => console.log(err))
-    }
+    
 
     signUpForm = (name, email, password) => (
         <form>

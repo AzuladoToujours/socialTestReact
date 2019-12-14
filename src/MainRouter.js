@@ -2,7 +2,7 @@ import React from 'react'
 import Home from './core/Home'
 import Menu from './core/Menu'
 import Signup from './user/Signup'
-import Signin from './user/Singin'
+import Signin from './user/Signin'
 import {Route, Switch} from 'react-router-dom'
 
 const MainRouter = () => (

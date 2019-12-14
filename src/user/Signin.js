@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {Redirect} from 'react-router-dom'
+import {signIn, authenticate} from '../auth/Auth'
 
 
 class Signin  extends Component {
@@ -23,15 +24,7 @@ class Signin  extends Component {
         this.setState({[name]: event.target.value })
     }
 
-    authenticate  (jwt, next) {
-        //typeof operator, window object...
-        if (typeof window !== "undefined"){
-            //name of the item, and the value
-            localStorage.setItem('jwt' , JSON.stringify(jwt))
-            //When the user authenticates, next get executed, so redirect becomes true
-            next();
-        }
-    }
+    
     
     //With the event onChange we'll know what changes has been made, then pass it through the method 
     //handleChange to get the info.
@@ -47,14 +40,14 @@ class Signin  extends Component {
             password
         };
 
-        this.signin(user)
+        signIn(user)
         .then(data => {
             if(data.error){
                 this.setState({error : data.error, loading:false});
             } 
                 else {
                     // authenticate user
-                    this.authenticate(data, () => {
+                        authenticate(data, () => {
                         this.setState({redirectToReferer: true})
                     });
                     
@@ -62,22 +55,7 @@ class Signin  extends Component {
         });
     };
 
-    signin = (user) => {
-        //To make the POST request, we can use axios, but we will use fetch...
-        return fetch("http://localhost:8080/signin", {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                "Content-type": 'application/json' 
-            },
-            body: JSON.stringify(user)
-        })
-        .then(response => {
-            //We use this method to show what the backend shows... like "Name required"
-            return response.json()
-        })
-        .catch(err => console.log(err))
-    }
+    
 
     signInForm = (email, password) => (
         <form>
