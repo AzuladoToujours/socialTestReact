@@ -43,10 +43,9 @@ const Menu = props => (
 				<>
 					<li className="nav-item">
 						<a
+							href="/"
 							className="nav-link"
-							href="#/"
-							style={isActive(props.history, '/', {
-								cursor: 'pointer',
+							style={isActive(props.history, '/signout', {
 								color: '#000000'
 							})}
 							onClick={() =>
@@ -60,9 +59,16 @@ const Menu = props => (
 					</li>
 
 					<li className="nav-item">
-						<a className="nav-link" href="#/">
-							{isAuthenticated().user.name}
-						</a>
+						<Link
+							className="nav-link"
+							style={isActive(
+								props.history,
+								`/user/${isAuthenticated().user._id}`
+							)}
+							to={`/user/${isAuthenticated().user._id}`}
+						>
+							{`${isAuthenticated().user.name}'s Profile`}
+						</Link>
 					</li>
 				</>
 			)}

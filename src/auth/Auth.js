@@ -1,6 +1,6 @@
 export const signUp = user => {
 	//To make the POST request, we can use axios, but we will use fetch...
-	return fetch('http://localhost:8080/signup', {
+	return fetch(`${process.env.REACT_APP_API_URL}/signup`, {
 		method: 'POST',
 		headers: {
 			Accept: 'application/json',
@@ -17,7 +17,7 @@ export const signUp = user => {
 
 export const signIn = user => {
 	//To make the POST request, we can use axios, but we will use fetch...
-	return fetch('http://localhost:8080/signin', {
+	return fetch(`${process.env.REACT_APP_API_URL}/signin`, {
 		method: 'POST',
 		headers: {
 			Accept: 'application/json',
@@ -48,7 +48,7 @@ export const signOut = next => {
 		localStorage.removeItem('jwt');
 	}
 	next();
-	return fetch('http://localhost:8080/signout', {
+	return fetch(`${process.env.REACT_APP_API_URL}/signout`, {
 		method: 'GET'
 	})
 		.then(response => {
