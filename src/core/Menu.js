@@ -16,6 +16,16 @@ const Menu = props => (
 				</Link>
 			</li>
 
+			<li className="nav-item">
+				<Link
+					className="nav-link"
+					style={isActive(props.history, '/users')}
+					to="/users"
+				>
+					Users
+				</Link>
+			</li>
+
 			{!isAuthenticated() && (
 				</*This is react fragments*/>
 					<li className="nav-item">
@@ -42,6 +52,19 @@ const Menu = props => (
 			{isAuthenticated() && (
 				<>
 					<li className="nav-item">
+						<Link
+							className="nav-link"
+							style={isActive(
+								props.history,
+								`/user/${isAuthenticated().user._id}`
+							)}
+							to={`/user/${isAuthenticated().user._id}`}
+						>
+							{`${isAuthenticated().user.name}'s Profile`}
+						</Link>
+					</li>
+
+					<li className="nav-item">
 						<a
 							href="/"
 							className="nav-link"
@@ -56,19 +79,6 @@ const Menu = props => (
 						>
 							Sign out
 						</a>
-					</li>
-
-					<li className="nav-item">
-						<Link
-							className="nav-link"
-							style={isActive(
-								props.history,
-								`/user/${isAuthenticated().user._id}`
-							)}
-							to={`/user/${isAuthenticated().user._id}`}
-						>
-							{`${isAuthenticated().user.name}'s Profile`}
-						</Link>
 					</li>
 				</>
 			)}

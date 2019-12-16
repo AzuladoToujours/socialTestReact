@@ -57,6 +57,7 @@ export const signOut = next => {
 		.catch(err => console.log(err));
 };
 
+//If the localStorage has the jwt Item, we get it back like a JSON.
 export const isAuthenticated = () => {
 	if (typeof window == 'undefined') {
 		return false;

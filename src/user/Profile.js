@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { isAuthenticated } from '../auth/Auth';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { getInfo } from './apiUser';
+import DefaultProfile from '../images/avatar.jpg';
 
 class Profile extends Component {
 	constructor() {
@@ -30,7 +31,7 @@ class Profile extends Component {
 	}
 
 	render() {
-		const redirectToSignIn = this.state.redirectToSignIn;
+		const { redirectToSignIn, user } = this.state;
 
 		if (redirectToSignIn) {
 			return <Redirect to="/signin" />;
@@ -38,9 +39,37 @@ class Profile extends Component {
 		return (
 			<div className="container">
 				<h2 className="mt-5 mb-5">PROFILE</h2>
-				<p> Hello {isAuthenticated().user.name}</p>
-				<p> Email: {isAuthenticated().user.email}</p>
-				<p>{`Joined ${new Date(this.state.user.created).toDateString()}`}</p>
+				<div className="row">
+					<div className="col-md-6">
+						<img
+							className="card-img-top"
+							src={DefaultProfile}
+							alt={user.name}
+							style={{ width: '100%', height: '15vw', objectFit: 'cover' }}
+						/>
+					</div>
+
+					<div className="col-md-6">
+						<div className="lead mt-2">
+							<p> {`${user.name}'s Profile`}</p>
+							<p> {`Email: ${user.email}`}</p>
+							<p>{`Joined ${new Date(user.created).toDateString()}`}</p>
+						</div>
+						{isAuthenticated().user && isAuthenticated().user._id === user._id && (
+							<div className="d-inline-block">
+								<Link
+									className="btn btn-raised btn-success mr-5"
+									to={`/user/edit/${user._id}`}
+								>
+									EDIT PROFILE
+								</Link>
+								<button className="btn btn-raised btn-danger mr-5">
+									DELETE PROFILE
+								</button>
+							</div>
+						)}
+					</div>
+				</div>
 			</div>
 		);
 	}
