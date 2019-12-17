@@ -3,6 +3,7 @@ import { isAuthenticated } from '../auth/Auth';
 import { Redirect, Link } from 'react-router-dom';
 import { getInfo } from './apiUser';
 import DefaultProfile from '../images/avatar.jpg';
+import DeleteUser from './DeleteUser';
 
 class Profile extends Component {
 	constructor() {
@@ -27,6 +28,11 @@ class Profile extends Component {
 
 	componentDidMount() {
 		const userId = this.props.match.params.userId;
+		this.isAuth(userId);
+	}
+
+	componentWillReceiveProps(props) {
+		const userId = props.match.params.userId;
 		this.isAuth(userId);
 	}
 
@@ -63,9 +69,7 @@ class Profile extends Component {
 								>
 									EDIT PROFILE
 								</Link>
-								<button className="btn btn-raised btn-danger mr-5">
-									DELETE PROFILE
-								</button>
+								<DeleteUser userId={user._id} />
 							</div>
 						)}
 					</div>

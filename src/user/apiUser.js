@@ -12,10 +12,11 @@ export const getInfo = (userId, token) => {
 			return response.json();
 		})
 		.catch(err => {
-			return err;
+			console.log(err);
 		});
 };
 
+//Make a get request to users and return the array as a json
 export const list = () => {
 	return fetch(`${process.env.REACT_APP_API_URL}/users`, {
 		method: 'GET'
@@ -24,4 +25,23 @@ export const list = () => {
 			return response.json();
 		})
 		.catch(err => console.log(err));
+};
+
+//Method to deleteAccount
+
+export const removeUser = (userId, token) => {
+	return fetch(`${process.env.REACT_APP_API_URL}/user/${userId}`, {
+		method: 'DELETE',
+		headers: {
+			Accept: 'application/json',
+			'Content-type': 'application/json',
+			Authorization: `Bearer ${token}`
+		}
+	})
+		.then(response => {
+			return response.json();
+		})
+		.catch(err => {
+			console.log(err);
+		});
 };
