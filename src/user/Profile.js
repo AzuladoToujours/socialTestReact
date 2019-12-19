@@ -31,7 +31,7 @@ class Profile extends Component {
 		this.isAuth(userId);
 	}
 
-	componentWillReceiveProps(props) {
+	UNSAFE_componentWillReceiveProps(props) {
 		const userId = props.match.params.userId;
 		this.isAuth(userId);
 	}
