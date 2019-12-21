@@ -8,8 +8,11 @@ class DeleteUser extends Component {
 		redirect: false
 	};
 	deleteAccount = () => {
+		//Get the token in the session
 		const token = isAuthenticated().token;
+		//Grab the userId given in the URL
 		const userId = this.props.userId;
+		//Do the method
 		removeUser(userId, token).then(data => {
 			if (data.error) {
 				console.log(data.error);
