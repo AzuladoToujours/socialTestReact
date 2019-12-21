@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { list } from './apiUser';
 import { Link } from 'react-router-dom';
-import DefaultProfile from '../images/avatar.jpg';
+//import DefaultProfile from '../images/avatar.jpg';
 
 class Users extends Component {
 	constructor() {
@@ -29,7 +29,7 @@ class Users extends Component {
 						style={{ height: '200px', width: 'auto' }}
 						className="image-thumbnail"
 						src={`${process.env.REACT_APP_API_URL}/user/photo/${user._id}`}
-						onError={i => (i.target.src = `${DefaultProfile}`)}
+						//onError={i => (i.target.src = `${DefaultProfile}`)}
 						alt={user.name}
 					/>
 					<div className="card-body">

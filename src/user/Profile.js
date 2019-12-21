@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { isAuthenticated } from '../auth/Auth';
 import { Redirect, Link } from 'react-router-dom';
 import { getInfo } from './apiUser';
-import DefaultProfile from '../images/avatar.jpg';
+
 import DeleteUser from './DeleteUser';
 
 class Profile extends Component {
@@ -29,6 +29,7 @@ class Profile extends Component {
 	componentDidMount() {
 		const userId = this.props.match.params.userId;
 		this.isAuth(userId);
+		//The new Date is to get the updated photo
 	}
 
 	UNSAFE_componentWillReceiveProps(props) {
@@ -44,11 +45,9 @@ class Profile extends Component {
 		}
 
 		//The new Date is to get the updated photo
-		const photoUrl = user._id
-			? `${process.env.REACT_APP_API_URL}/user/photo/${
-					user._id
-			  }?${new Date().getTime()}`
-			: DefaultProfile;
+		const photoUrl = `${process.env.REACT_APP_API_URL}/user/photo/${
+			user._id
+		}?${new Date().getTime()}`;
 
 		return (
 			<div className="container">
@@ -59,7 +58,6 @@ class Profile extends Component {
 							style={{ height: '200px', width: 'auto' }}
 							className="image-thumbnail"
 							src={photoUrl}
-							onError={i => (i.target.src = `${DefaultProfile}`)}
 							alt={user.name}
 						/>
 					</div>

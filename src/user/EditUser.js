@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { isAuthenticated } from '../auth/Auth';
 import { getInfo, updateUser, updateMenu } from './apiUser';
 import { Redirect } from 'react-router-dom';
-import DefaultProfile from '../images/avatar.jpg';
+//import DefaultProfile from '../images/avatar.jpg';
 
 class EditUser extends Component {
 	constructor() {
@@ -158,11 +158,9 @@ class EditUser extends Component {
 			return <Redirect to={`/user/${id}`} />;
 		}
 		//The new Date is to get the updated photo
-		const photoUrl = id
-			? `${
-					process.env.REACT_APP_API_URL
-			  }/user/photo/${id}?${new Date().getTime()}`
-			: DefaultProfile;
+		const photoUrl = `${
+			process.env.REACT_APP_API_URL
+		}/user/photo/${id}?${new Date().getTime()}`;
 
 		return (
 			<div className="container">
@@ -186,7 +184,7 @@ class EditUser extends Component {
 					style={{ height: '200px', width: 'auto' }}
 					className="image-thumbnail"
 					src={photoUrl}
-					onError={i => (i.target.src = `${DefaultProfile}`)}
+					//onError={i => (i.target.src = `${DefaultProfile}`)}
 					alt={name}
 				/>
 
