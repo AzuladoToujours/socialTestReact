@@ -2,17 +2,43 @@ import React, { Component } from 'react';
 import { isAuthenticated } from '../auth/Auth';
 import { Redirect, Link } from 'react-router-dom';
 import { getInfo } from './apiUser';
-
+import FollowProfileButton from './FollowProfileButton';
 import DeleteUser from './DeleteUser';
 
 class Profile extends Component {
 	constructor() {
 		super();
 		this.state = {
-			user: '',
-			redirectToSignIn: false
+			user: { following: [], followers: [] },
+			redirectToSignIn: false,
+			following: false,
+			error: ''
 		};
 	}
+
+	//Checks if the authenticated user (jwt by the isAuthenticated) follows the profile that we're seeing(user)
+	checkFollow = user => {
+		const jwt = isAuthenticated();
+		const match = user.followers.find(follower => {
+			//One id has many other ids (Followers) and vice versa
+			return follower._id === jwt.user._id;
+		});
+		return match;
+	};
+
+	//Follow button clicked
+	clickFollowButton = callApi => {
+		const userId = isAuthenticated().user._id;
+		const token = isAuthenticated().token;
+
+		callApi(userId, token, this.state.user._id).then(data => {
+			if (data.error) {
+				this.setState({ error: data.error });
+			} else {
+				this.setState({ user: data, following: !this.state.following });
+			}
+		});
+	};
 
 	//Checks if the user is authenticated, if it's not, we redirect to signin changing the state to true
 	isAuth = userId => {
@@ -21,7 +47,9 @@ class Profile extends Component {
 			if (data.error) {
 				this.setState({ redirectToSignIn: true });
 			} else {
-				this.setState({ user: data });
+				//Get the callback from the checkFollow() then we change the state of following
+				let following = this.checkFollow(data);
+				this.setState({ user: data, following });
 			}
 		});
 	};
@@ -68,7 +96,8 @@ class Profile extends Component {
 							<p> {`Email: ${user.email}`}</p>
 							<p>{`Joined ${new Date(user.created).toDateString()}`}</p>
 						</div>
-						{isAuthenticated().user && isAuthenticated().user._id === user._id && (
+						{isAuthenticated().user &&
+						isAuthenticated().user._id === user._id ? (
 							<div className="d-inline-block">
 								<Link
 									className="btn btn-raised btn-success mr-5"
@@ -78,6 +107,11 @@ class Profile extends Component {
 								</Link>
 								<DeleteUser userId={user._id} />
 							</div>
+						) : (
+							<FollowProfileButton
+								following={this.state.following}
+								onButtonClick={this.clickFollowButton}
+							/>
 						)}
 					</div>
 				</div>
