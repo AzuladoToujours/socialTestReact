@@ -4,6 +4,7 @@ import { Redirect, Link } from 'react-router-dom';
 import { getInfo } from './apiUser';
 import FollowProfileButton from './FollowProfileButton';
 import DeleteUser from './DeleteUser';
+import ProfileTabs from './ProfileTabs';
 
 class Profile extends Component {
 	constructor() {
@@ -11,7 +12,7 @@ class Profile extends Component {
 		this.state = {
 			user: { following: [], followers: [] },
 			redirectToSignIn: false,
-			following: false,
+			isFollowing: false,
 			error: ''
 		};
 	}
@@ -35,7 +36,7 @@ class Profile extends Component {
 			if (data.error) {
 				this.setState({ error: data.error });
 			} else {
-				this.setState({ user: data, following: !this.state.following });
+				this.setState({ user: data, isFollowing: !this.state.isFollowing });
 			}
 		});
 	};
@@ -47,9 +48,9 @@ class Profile extends Component {
 			if (data.error) {
 				this.setState({ redirectToSignIn: true });
 			} else {
-				//Get the callback from the checkFollow() then we change the state of following
-				let following = this.checkFollow(data);
-				this.setState({ user: data, following });
+				//Get the callback from the checkFollow() then we change the state of isFollowing
+				let isFollowing = this.checkFollow(data);
+				this.setState({ user: data, isFollowing });
 			}
 		});
 	};
@@ -109,7 +110,7 @@ class Profile extends Component {
 							</div>
 						) : (
 							<FollowProfileButton
-								following={this.state.following}
+								following={this.state.isFollowing}
 								onButtonClick={this.clickFollowButton}
 							/>
 						)}
@@ -120,6 +121,10 @@ class Profile extends Component {
 						<hr />
 						<p className="lead">{user.about}</p>
 						<hr />
+						<ProfileTabs
+							following={user.following}
+							followers={user.followers}
+						/>
 					</div>
 				</div>
 			</div>
