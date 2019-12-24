@@ -65,6 +65,16 @@ const Menu = props => (
 					</li>
 
 					<li className="nav-item">
+						<Link
+							className="nav-link"
+							style={isActive(props.history, `/findpeople`)}
+							to={`/findpeople`}
+						>
+							WHO TO FOLLOW
+						</Link>
+					</li>
+
+					<li className="nav-item">
 						<a
 							href="/"
 							className="nav-link"

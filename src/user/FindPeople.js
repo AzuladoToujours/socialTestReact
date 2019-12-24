@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { list } from './apiUser';
+import { findPeople } from './apiUser';
 import { Link } from 'react-router-dom';
-//import DefaultProfile from '../images/avatar.jpg';
+import { isAuthenticated } from '../auth/Auth';
 
-class Users extends Component {
+class FindPeople extends Component {
 	constructor() {
 		super();
 		this.state = {
@@ -12,7 +12,9 @@ class Users extends Component {
 	}
 
 	componentDidMount() {
-		list().then(data => {
+		const userId = isAuthenticated().user._id;
+		const token = isAuthenticated().token;
+		findPeople(userId, token).then(data => {
 			if (data.error) {
 				console.log(data.error);
 			} else {
@@ -53,11 +55,11 @@ class Users extends Component {
 		const { users } = this.state;
 		return (
 			<div className="container">
-				<h2 className="mt-5 mb-5">Users</h2>
+				<h2 className="mt-5 mb-5">Find People</h2>
 				{this.renderUsers(users)}
 			</div>
 		);
 	}
 }
 
-export default Users;
+export default FindPeople;
