@@ -9,6 +9,7 @@ import { Route, Switch } from 'react-router-dom';
 import EditUser from './user/EditUser';
 import PrivateRoute from './auth/PrivateRoute';
 import FindPeople from './user/FindPeople';
+import NewPost from './post/NewPost';
 
 const MainRouter = () => (
 	<div>
@@ -18,6 +19,7 @@ const MainRouter = () => (
 			<Route exact path="/users" component={Users}></Route>
 			<Route exact path="/Signup" component={Signup}></Route>
 			<Route exact path="/Signin" component={Signin}></Route>
+			<PrivateRoute exact path="/post/create" component={NewPost} />
 			<PrivateRoute exact path="/user/edit/:userId" component={EditUser} />
 			<PrivateRoute exact path="/findpeople" component={FindPeople} />
 			<PrivateRoute exact path="/user/:userId" component={Profile} />

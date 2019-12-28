@@ -75,6 +75,16 @@ const Menu = props => (
 					</li>
 
 					<li className="nav-item">
+						<Link
+							className="nav-link"
+							style={isActive(props.history, `/post/create`)}
+							to={`/post/create`}
+						>
+							CREATE POST
+						</Link>
+					</li>
+
+					<li className="nav-item">
 						<a
 							href="/"
 							className="nav-link"
