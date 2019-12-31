@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { getSinglePost } from './apiPost';
 import { Link } from 'react-router-dom';
+import { isAuthenticated } from '../auth/Auth';
 
 class SinglePost extends Component {
 	state = {
@@ -38,13 +39,31 @@ class SinglePost extends Component {
 				</p>
 				<p className="card-text">{post.body}</p>
 
-				<Link
-					to={`/`}
-					className="btn btn-raised btn-primary btn-sm"
-					style={{ backgroundColor: '#FF5E4B', color: 'white' }}
-				>
-					Return
-				</Link>
+				{isAuthenticated().user && isAuthenticated().user._id === posterId ? (
+					<div className="d-inline-block">
+						<Link
+							to={`/`}
+							className="btn btn-raised btn-primary mr-5"
+							style={{ backgroundColor: '#FF5E4B', color: 'white' }}
+						>
+							Return
+						</Link>
+						<button className="btn btn-raised btn-warning mr-5">
+							EDIT POST
+						</button>
+						<button className="btn btn-raised btn-danger mr-5">
+							DELETE POST
+						</button>
+					</div>
+				) : (
+					<Link
+						to={`/`}
+						className="btn btn-raised btn-primary mr-5"
+						style={{ backgroundColor: '#FF5E4B', color: 'white' }}
+					>
+						Return
+					</Link>
+				)}
 			</div>
 		);
 	};

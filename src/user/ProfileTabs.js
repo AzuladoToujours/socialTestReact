@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 class ProfileTabs extends Component {
 	render() {
-		const { following, followers } = this.props;
+		const { following, followers, posts } = this.props;
 		return (
 			<div>
 				<div className="row">
@@ -65,6 +65,26 @@ class ProfileTabs extends Component {
 										<div>
 											<p className="lead" style={{ color: '#FF5E4B' }}>
 												{follow.name}
+											</p>
+										</div>
+									</Link>
+								</div>
+							</div>
+						))}
+					</div>
+
+					<div className="col-md-4">
+						<h3 className="text" style={{ color: '#FF7075' }}>
+							Posts
+						</h3>
+						<hr />
+						{posts.map((post, i) => (
+							<div key={i}>
+								<div>
+									<Link to={`/post/${post._id}`} style={{ color: '#FF5E4B' }}>
+										<div>
+											<p className="lead" style={{ color: '#FF5E4B' }}>
+												{post.title}
 											</p>
 										</div>
 									</Link>

@@ -5,6 +5,7 @@ import { getInfo } from './apiUser';
 import FollowProfileButton from './FollowProfileButton';
 import DeleteUser from './DeleteUser';
 import ProfileTabs from './ProfileTabs';
+import { getPostsByUser } from '../post/apiPost';
 
 class Profile extends Component {
 	constructor() {
@@ -13,7 +14,8 @@ class Profile extends Component {
 			user: { following: [], followers: [] },
 			redirectToSignIn: false,
 			isFollowing: false,
-			error: ''
+			error: '',
+			posts: []
 		};
 	}
 
@@ -41,6 +43,16 @@ class Profile extends Component {
 		});
 	};
 
+	loadPosts = (userId, token) => {
+		getPostsByUser(userId, token).then(data => {
+			if (data.error) {
+				console.log(data.error);
+			} else {
+				this.setState({ posts: data });
+			}
+		});
+	};
+
 	//Checks if the user is authenticated, if it's not, we redirect to signin changing the state to true
 	isAuth = userId => {
 		const token = isAuthenticated().token;
@@ -51,6 +63,7 @@ class Profile extends Component {
 				//Get the callback from the checkFollow() then we change the state of isFollowing
 				let isFollowing = this.checkFollow(data);
 				this.setState({ user: data, isFollowing });
+				this.loadPosts(data._id, token);
 			}
 		});
 	};
@@ -58,7 +71,6 @@ class Profile extends Component {
 	componentDidMount() {
 		const userId = this.props.match.params.userId;
 		this.isAuth(userId);
-		//The new Date is to get the updated photo
 	}
 
 	UNSAFE_componentWillReceiveProps(props) {
@@ -67,7 +79,7 @@ class Profile extends Component {
 	}
 
 	render() {
-		const { redirectToSignIn, user } = this.state;
+		const { redirectToSignIn, user, posts } = this.state;
 
 		if (redirectToSignIn) {
 			return <Redirect to="/signin" />;
@@ -82,7 +94,7 @@ class Profile extends Component {
 			<div className="container">
 				<h2 className="mt-5 mb-5">Profile</h2>
 				<div className="row">
-					<div className="col-md-6">
+					<div className="col-md-4">
 						<img
 							style={{ height: '200px', width: 'auto' }}
 							className="image-thumbnail"
@@ -91,7 +103,7 @@ class Profile extends Component {
 						/>
 					</div>
 
-					<div className="col-md-6">
+					<div className="col-md-8">
 						<div className="lead mt-2">
 							<p> {`${user.name}'s Profile`}</p>
 							<p> {`Email: ${user.email}`}</p>
@@ -100,6 +112,12 @@ class Profile extends Component {
 						{isAuthenticated().user &&
 						isAuthenticated().user._id === user._id ? (
 							<div className="d-inline-block">
+								<Link
+									className="btn btn-raised btn-info mr-5"
+									to={`/post/create`}
+								>
+									CREATE POST
+								</Link>
 								<Link
 									className="btn btn-raised btn-success mr-5"
 									to={`/user/edit/${user._id}`}
@@ -124,6 +142,7 @@ class Profile extends Component {
 						<ProfileTabs
 							following={user.following}
 							followers={user.followers}
+							posts={posts}
 						/>
 					</div>
 				</div>
