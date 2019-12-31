@@ -1,9 +1,15 @@
 import React from 'react';
+import Posts from '../post/Posts';
 
 const Home = () => (
-	<div className="jumbotron">
-		<h2>HOME</h2>
-		<p className="lead">FRONTEND</p>
+	<div>
+		<div className="jumbotron">
+			<h2>HOME</h2>
+			<p className="lead">FRONTEND</p>
+		</div>
+		<div className="container">
+			<Posts />
+		</div>
 	</div>
 );
 

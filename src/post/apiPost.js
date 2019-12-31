@@ -14,3 +14,24 @@ export const createPost = (userId, token, post) => {
 			console.log(err);
 		});
 };
+
+//Make a get request to posts and return the array as a json
+export const listPosts = () => {
+	return fetch(`${process.env.REACT_APP_API_URL}/posts`, {
+		method: 'GET'
+	})
+		.then(response => {
+			return response.json();
+		})
+		.catch(err => console.log(err));
+};
+
+export const getSinglePost = postId => {
+	return fetch(`${process.env.REACT_APP_API_URL}/post/${postId}`, {
+		method: 'GET'
+	})
+		.then(response => {
+			return response.json();
+		})
+		.catch(err => console.log(err));
+};
