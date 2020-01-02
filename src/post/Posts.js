@@ -31,8 +31,10 @@ class Posts extends Component {
 						<div className="card col-md-4" key={i}>
 							<img
 								className="image-thumbnail"
-								src={`${process.env.REACT_APP_API_URL}/post/photo/${post._id}`}
-								style={{ width: 'auto', height: '200px' }}
+								src={`${process.env.REACT_APP_API_URL}/post/photo/${
+									post._id
+								}?${new Date().getTime()}`}
+								style={{ width: '100%', height: '200px' }}
 								alt={post.title}
 								onError={i => ((i.target.style = 'none'), (i.target.alt = ''))}
 							/>
