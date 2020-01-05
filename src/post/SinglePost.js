@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { getSinglePost, removePost, likePost, unlikePost } from './apiPost';
 import { Link, Redirect } from 'react-router-dom';
 import { isAuthenticated } from '../auth/Auth';
+import Comment from './Comment';
 
 class SinglePost extends Component {
 	state = {
@@ -9,7 +10,8 @@ class SinglePost extends Component {
 		redirectToHome: false,
 		redirectToSignin: false,
 		like: false,
-		likes: 0
+		likes: 0,
+		comments: []
 	};
 
 	componentDidMount = () => {
@@ -21,10 +23,15 @@ class SinglePost extends Component {
 				this.setState({
 					post: data,
 					likes: data.likes.length,
-					like: this.checkLike(data.likes)
+					like: this.checkLike(data.likes),
+					comments: data.comments
 				});
 			}
 		});
+	};
+
+	updateComments = comments => {
+		this.setState({ comments: comments });
 	};
 
 	checkLike = likes => {
@@ -92,19 +99,25 @@ class SinglePost extends Component {
 
 				{like ? (
 					<h3 onClick={this.likeToggle}>
-						<i
-							className="fa fa-thumbs-up text-success bg-dark"
-							style={{ padding: '10px', borderRadius: '50%' }}
-						/>{' '}
 						{likes} Likes
+						<h3>
+							<i
+								className="fa fa-thumbs-up text-success bg-dark"
+								style={{ padding: '10px', borderRadius: '50%' }}
+							/>{' '}
+							Liked
+						</h3>
 					</h3>
 				) : (
 					<h3 onClick={this.likeToggle}>
-						<i
-							className="fa fa-thumbs-up text-warning bg-dark"
-							style={{ padding: '10px', borderRadius: '50%' }}
-						/>{' '}
 						{likes} Likes
+						<h3>
+							<i
+								className="fa fa-thumbs-up text-warning bg-dark"
+								style={{ padding: '10px', borderRadius: '50%' }}
+							/>{' '}
+							Like
+						</h3>
 					</h3>
 				)}
 				<p className="font-italic mark">
@@ -151,7 +164,7 @@ class SinglePost extends Component {
 	};
 
 	render() {
-		const { post, redirectToHome, redirectToSignin } = this.state;
+		const { post, redirectToHome, redirectToSignin, comments } = this.state;
 
 		if (redirectToHome) {
 			return <Redirect to={'/'} />;
@@ -165,6 +178,11 @@ class SinglePost extends Component {
 			<div className="container">
 				<h2 className="display-2 mt-5 mb-5">{post.title}</h2>
 				{this.renderPost(post)}
+				<Comment
+					postId={post._id}
+					comments={comments.reverse()}
+					updateComments={this.updateComments}
+				/>
 			</div>
 		);
 	}
