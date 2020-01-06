@@ -38,9 +38,7 @@ class Posts extends Component {
 								}?${new Date().getTime()}`}
 								style={{ width: '100%', height: '200px' }}
 								alt={post.title}
-								onError={i => (
-									(i.target.display = 'none'), (i.target.alt = '')
-								)}
+								onError={i => ((i.target.style = 'none'), (i.target.alt = ''))}
 							/>
 
 							<div className="card-body">
