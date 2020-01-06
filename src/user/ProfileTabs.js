@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 class ProfileTabs extends Component {
 	render() {
+		//Receives the list of followers, following and posts as props
 		const { following, followers, posts } = this.props;
 		return (
 			<div>

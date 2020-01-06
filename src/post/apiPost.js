@@ -1,3 +1,4 @@
+//Fetch to the method createPost in the backend.
 export const createPost = (userId, token, post) => {
 	return fetch(`${process.env.REACT_APP_API_URL}/post/new/${userId}`, {
 		method: 'POST',
@@ -26,6 +27,7 @@ export const listPosts = () => {
 		.catch(err => console.log(err));
 };
 
+//Get the single post receiving the PostId
 export const getSinglePost = postId => {
 	return fetch(`${process.env.REACT_APP_API_URL}/post/${postId}`, {
 		method: 'GET'
@@ -36,6 +38,7 @@ export const getSinglePost = postId => {
 		.catch(err => console.log(err));
 };
 
+//Get the posts made by the user
 export const getPostsByUser = (userId, token) => {
 	return fetch(`${process.env.REACT_APP_API_URL}/posts/by/${userId}`, {
 		method: 'GET',
@@ -53,6 +56,7 @@ export const getPostsByUser = (userId, token) => {
 		});
 };
 
+//Fetch to remove the post
 export const removePost = (postId, token) => {
 	//fetch to the method in the backend
 	return fetch(`${process.env.REACT_APP_API_URL}/post/${postId}`, {
@@ -71,6 +75,7 @@ export const removePost = (postId, token) => {
 		});
 };
 
+//Fetch to update a post
 export const updatePost = (postId, token, post) => {
 	console.log(postId, token, post);
 	return fetch(`${process.env.REACT_APP_API_URL}/post/${postId}`, {
@@ -89,6 +94,7 @@ export const updatePost = (postId, token, post) => {
 		});
 };
 
+//Update a post's likes, sending the userId and the postId
 export const likePost = (userId, postId, token) => {
 	return fetch(`${process.env.REACT_APP_API_URL}/post/like`, {
 		method: 'PUT',
@@ -107,6 +113,7 @@ export const likePost = (userId, postId, token) => {
 		});
 };
 
+//Update a post's likes, sending the userId and the postId
 export const unlikePost = (userId, postId, token) => {
 	return fetch(`${process.env.REACT_APP_API_URL}/post/unlike`, {
 		method: 'PUT',
@@ -125,6 +132,7 @@ export const unlikePost = (userId, postId, token) => {
 		});
 };
 
+//Update a post's comments, sending the userId, the postId and the comment
 export const commentPost = (userId, postId, token, comment) => {
 	return fetch(`${process.env.REACT_APP_API_URL}/post/comment`, {
 		method: 'PUT',
@@ -142,7 +150,7 @@ export const commentPost = (userId, postId, token, comment) => {
 			console.log(err);
 		});
 };
-
+//Update a post's comments, sending the userId, the postId and the comment to delete it
 export const uncommentPost = (userId, postId, token, comment) => {
 	return fetch(`${process.env.REACT_APP_API_URL}/post/uncomment`, {
 		method: 'PUT',

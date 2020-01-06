@@ -10,6 +10,7 @@ class Posts extends Component {
 		};
 	}
 
+	//When the component mounts, we use the method listPosts in the apiPost to get the list of posts...
 	componentDidMount() {
 		listPosts().then(data => {
 			if (data.error) {
@@ -20,6 +21,7 @@ class Posts extends Component {
 		});
 	}
 
+	//method to render posts, when the post has no photo, we use the method onError to change the style to none.
 	renderPosts = posts => {
 		return (
 			<div className="row">
@@ -36,7 +38,9 @@ class Posts extends Component {
 								}?${new Date().getTime()}`}
 								style={{ width: '100%', height: '200px' }}
 								alt={post.title}
-								onError={i => ((i.target.style = 'none'), (i.target.alt = ''))}
+								onError={i => (
+									(i.target.display = 'none'), (i.target.alt = '')
+								)}
 							/>
 
 							<div className="card-body">

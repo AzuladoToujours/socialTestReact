@@ -32,6 +32,7 @@ class EditPost extends Component {
 		});
 	};
 
+	//When the component mounts, we use Init() to get the post's information.
 	componentDidMount = () => {
 		this.postData = new FormData();
 		const postId = this.props.match.params.postId;
@@ -49,7 +50,7 @@ class EditPost extends Component {
 		this.postData.set(name, value);
 		this.setState({ [name]: value, fileSize });
 	};
-
+	//Checks the values in the edited post
 	isValid = () => {
 		const { title, body, fileSize } = this.state;
 		if (fileSize > 100000) {

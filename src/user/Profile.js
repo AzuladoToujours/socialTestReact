@@ -29,7 +29,9 @@ class Profile extends Component {
 		return match;
 	};
 
-	//Follow button clicked
+	//Follow button clicked, receives a method as an argument, the method receives
+	//the id of the authenticated User (userId), token and the user id charged in the profile...
+	//This method is executed in the FollowProfileButton component...
 	clickFollowButton = callApi => {
 		const userId = isAuthenticated().user._id;
 		const token = isAuthenticated().token;
@@ -38,6 +40,7 @@ class Profile extends Component {
 			if (data.error) {
 				this.setState({ error: data.error });
 			} else {
+				//After executing the method, we receive and update the user in the profile and change the state of isFollowing
 				this.setState({ user: data, isFollowing: !this.state.isFollowing });
 			}
 		});
@@ -54,6 +57,7 @@ class Profile extends Component {
 	};
 
 	//Checks if the user is authenticated, if it's not, we redirect to signin changing the state to true
+	//This because to see an unique user, we must be authenticated...
 	isAuth = userId => {
 		const token = isAuthenticated().token;
 		getInfo(userId, token).then(data => {
@@ -63,16 +67,19 @@ class Profile extends Component {
 				//Get the callback from the checkFollow() then we change the state of isFollowing
 				let isFollowing = this.checkFollow(data);
 				this.setState({ user: data, isFollowing });
+				//We execute the loadPosts method, to do a fetch to the back and get all the posts of the user
 				this.loadPosts(data._id, token);
 			}
 		});
 	};
 
 	componentDidMount() {
+		//When the component mounts, gets the userId from the URL then gets all the info via isAuth...
 		const userId = this.props.match.params.userId;
 		this.isAuth(userId);
 	}
 
+	//This method is to update the props
 	UNSAFE_componentWillReceiveProps(props) {
 		const userId = props.match.params.userId;
 		this.isAuth(userId);
@@ -109,7 +116,9 @@ class Profile extends Component {
 							<p> {`Email: ${user.email}`}</p>
 							<p>{`Joined ${new Date(user.created).toDateString()}`}</p>
 						</div>
-						{isAuthenticated().user &&
+						{//We check if the authenticated user is the same as in the profile.
+						//If it is, we display the createPost, edit Profile and DeleteUser Component
+						isAuthenticated().user &&
 						isAuthenticated().user._id === user._id ? (
 							<div className="d-inline-block">
 								<Link
@@ -127,6 +136,8 @@ class Profile extends Component {
 								<DeleteUser userId={user._id} />
 							</div>
 						) : (
+							//If it's not the same user, we just charge the FollowProfileButton Component sending the
+							//following state as "following" and the method clickFollowButton as "onButtonClick" to the props
 							<FollowProfileButton
 								following={this.state.isFollowing}
 								onButtonClick={this.clickFollowButton}
@@ -139,6 +150,8 @@ class Profile extends Component {
 						<hr />
 						<p className="lead">{user.about}</p>
 						<hr />
+						{/*Here we display the ProfileTabs component sending as props the following,
+						followers and posgs*/}
 						<ProfileTabs
 							following={user.following}
 							followers={user.followers}

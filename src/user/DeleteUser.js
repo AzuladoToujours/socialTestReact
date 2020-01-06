@@ -25,6 +25,7 @@ class DeleteUser extends Component {
 		});
 	};
 
+	//Confirmation
 	deleteConfirmed = () => {
 		let answer = window.confirm(
 			'Are you sure you want to delete your account?'

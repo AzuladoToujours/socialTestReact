@@ -35,7 +35,7 @@ class Signin extends Component {
 			email,
 			password
 		};
-
+		//Sends the user to the method in the apiUser
 		signIn(user).then(data => {
 			if (data.error) {
 				this.setState({ error: data.error, loading: false });
@@ -47,7 +47,7 @@ class Signin extends Component {
 			}
 		});
 	};
-
+	//Form on the signIn
 	signInForm = (email, password) => (
 		<form>
 			<div className="form-group">
@@ -77,7 +77,7 @@ class Signin extends Component {
 
 	render() {
 		const { email, password, error, redirectToReferer, loading } = this.state;
-
+		//When the user signins succesfuly, it's redirected to /
 		if (redirectToReferer) {
 			return <Redirect to="/" />;
 		}

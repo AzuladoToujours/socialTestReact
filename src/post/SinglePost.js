@@ -96,28 +96,26 @@ class SinglePost extends Component {
 					className="image-thumbnail mb-3"
 					style={{ height: '300px', width: '100%', objectFit: 'cover' }}
 				/>
-
+				<p>{likes} Likes </p>
 				{like ? (
 					<h3 onClick={this.likeToggle}>
-						{likes} Likes
-						<h3>
+						<>
 							<i
 								className="fa fa-thumbs-up text-success bg-dark"
 								style={{ padding: '10px', borderRadius: '50%' }}
 							/>{' '}
 							Liked
-						</h3>
+						</>
 					</h3>
 				) : (
 					<h3 onClick={this.likeToggle}>
-						{likes} Likes
-						<h3>
+						<>
 							<i
 								className="fa fa-thumbs-up text-warning bg-dark"
 								style={{ padding: '10px', borderRadius: '50%' }}
 							/>{' '}
 							Like
-						</h3>
+						</>
 					</h3>
 				)}
 				<p className="font-italic mark">

@@ -12,6 +12,7 @@ class FindPeople extends Component {
 	}
 
 	componentDidMount() {
+		//When the component mounts, we use the findPeople() in apiUser, to see list of users available to follow
 		const userId = isAuthenticated().user._id;
 		const token = isAuthenticated().token;
 		findPeople(userId, token).then(data => {

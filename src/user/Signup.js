@@ -15,7 +15,7 @@ class Signup extends Component {
 		};
 	}
 
-	//Method to trate the info of the inputs...
+	//Method to trate the info of the inputs whenever is a change
 
 	handleChange = name => event => {
 		this.setState({ error: '' });
@@ -36,6 +36,7 @@ class Signup extends Component {
 			password
 		};
 
+		//Use the method signUp in the apiUser
 		signUp(user).then(data => {
 			if (data.error) this.setState({ error: data.error });
 			else
@@ -49,6 +50,7 @@ class Signup extends Component {
 		});
 	};
 
+	//Form of the signup
 	signUpForm = (name, email, password) => (
 		<form>
 			<div className="form-group">
@@ -87,6 +89,7 @@ class Signup extends Component {
 	);
 
 	render() {
+		//Whenever is an error, the display will verify is in a error and chose between error or none.
 		const { name, email, password, error, open } = this.state;
 		return (
 			<div className="container">

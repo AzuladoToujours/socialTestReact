@@ -11,6 +11,7 @@ class Users extends Component {
 		};
 	}
 
+	//When the component mounts, use the method list() of apiUser.js to get the users from the backend.
 	componentDidMount() {
 		list().then(data => {
 			if (data.error) {
@@ -21,6 +22,7 @@ class Users extends Component {
 		});
 	}
 
+	//Method to display the users in html
 	renderUsers = users => (
 		<div className="row">
 			{users.map((user, i) => (
@@ -50,6 +52,7 @@ class Users extends Component {
 	);
 
 	render() {
+		//Receive the users that are in the state, to display them through the renderUsers()
 		const { users } = this.state;
 		return (
 			<div className="container">

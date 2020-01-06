@@ -19,7 +19,7 @@ class EditUser extends Component {
 		};
 	}
 
-	//Checks if the user is authenticated to get the data from it.
+	//Gets the info of the user
 	isAuth = userId => {
 		const token = isAuthenticated().token;
 		getInfo(userId, token).then(data => {
@@ -44,6 +44,7 @@ class EditUser extends Component {
 		this.isAuth(userId);
 	}
 
+	//Check the vality of the values in the form
 	isValid = () => {
 		const { name, email, fileSize } = this.state;
 		if (fileSize > 100000) {
@@ -66,11 +67,13 @@ class EditUser extends Component {
 	handleChange = name => event => {
 		this.setState({ error: '' });
 
-		//Grab the values in the form
+		//Grab the values in the form, if it matchs the name of photo; we grab the first file, if it not we just grab the value
 		const value = name === 'photo' ? event.target.files[0] : event.target.value;
-
+		//Checks if the name is photo and get the size, if it isn't a photo, just give to fileSize the value of 0
 		const fileSize = name === 'photo' ? event.target.files[0].size : 0;
+		//Set the values to the form data (userData)
 		this.userData.set(name, value);
+		//Change the value of the variables and the fileSize in the state
 		this.setState({ [name]: value, fileSize });
 	};
 
@@ -83,7 +86,7 @@ class EditUser extends Component {
 		if (this.isValid()) {
 			const userId = this.props.match.params.userId;
 			const token = isAuthenticated().token;
-
+			//Update the user, then updated the Menu with the new data and redirectToProfile
 			updateUser(userId, token, this.userData).then(data => {
 				if (data.error) this.setState({ error: data.error });
 				else

@@ -152,7 +152,7 @@ class Comment extends Component {
 													className="float-right mr-2"
 													onClick={() => this.deleteConfirmed(comment)}
 												>
-													<i class="far fa-trash-alt"></i>
+													<i className="far fa-trash-alt"></i>
 												</span>
 											</>
 										)}

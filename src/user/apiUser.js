@@ -47,6 +47,7 @@ export const removeUser = (userId, token) => {
 		});
 };
 
+//Method to update User, without Content-Type because we'll be needing a formData that is sended via the body as user.
 export const updateUser = (userId, token, user) => {
 	console.log('USER:', user);
 	return fetch(`${process.env.REACT_APP_API_URL}/user/${userId}`, {
@@ -64,6 +65,10 @@ export const updateUser = (userId, token, user) => {
 			console.log(err);
 		});
 };
+
+// Method to updateMenu whenever is a change, checks if the localStorage has the jwt item,
+// then change the user in the jwt to the sendend in the method, then set the item of jwt in the
+//localStorage again
 
 export const updateMenu = (user, next) => {
 	if (typeof window !== 'undefined') {
@@ -114,6 +119,7 @@ export const unfollow = (userId, token, unfollowId) => {
 		});
 };
 
+//FindPeople to follow
 export const findPeople = (userId, token) => {
 	return fetch(`${process.env.REACT_APP_API_URL}/user/findpeople/${userId}`, {
 		method: 'GET',

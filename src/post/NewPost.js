@@ -18,12 +18,13 @@ class NewPost extends Component {
 		};
 	}
 
-	//When the Component is called
+	//When the Component mounts, this is called and set the state of the user with the authenticated user.
 	componentDidMount() {
 		this.postData = new FormData();
 		this.setState({ user: isAuthenticated().user });
 	}
 
+	//Checks the values in the new post
 	isValid = () => {
 		const { title, body, fileSize } = this.state;
 		if (fileSize > 100000) {
