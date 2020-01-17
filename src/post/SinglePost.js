@@ -118,45 +118,61 @@ class SinglePost extends Component {
 						</>
 					</h3>
 				)}
+
+				<p className="card-text">{post.body}</p>
+				<br />
 				<p className="font-italic mark">
 					Posted by:
 					<Link to={`/user/${posterId}`}> {posterName} </Link>
 					on {new Date(post.created).toDateString()}
 				</p>
-				<p className="card-text">{post.body}</p>
 
-				{isAuthenticated().user && isAuthenticated().user._id === posterId ? (
-					<div className="d-inline-block">
-						<Link
-							to={`/`}
-							className="btn btn-raised btn-primary mr-5"
-							style={{ backgroundColor: '#FF5E4B', color: 'white' }}
-						>
-							Return
-						</Link>
-						<Link
-							to={`/post/edit/${post._id}`}
-							className="btn btn-raised btn-warning mr-5"
-						>
-							EDIT POST
-						</Link>
-						<button
-							//Dont put the () because it will triggers the method when the componentMounts
-							onClick={this.deleteConfirm}
-							className="btn btn-raised btn-danger mr-5"
-						>
-							DELETE POST
-						</button>
-					</div>
-				) : (
-					<Link
-						to={`/`}
-						className="btn btn-raised btn-primary mr-5"
-						style={{ backgroundColor: '#FF5E4B', color: 'white' }}
-					>
-						Return
+				<div className="d-inline-block">
+					<Link to={`/`} className="btn btn-raised btn-primary btn-sm mr-5">
+						Back to posts
 					</Link>
-				)}
+
+					{isAuthenticated().user && isAuthenticated().user._id === posterId && (
+						<div className="d-inline-block">
+							<Link
+								to={`/post/edit/${post._id}`}
+								className="btn btn-raised btn-warning mr-5"
+							>
+								EDIT POST
+							</Link>
+							<button
+								//Dont put the () because it will triggers the method when the componentMounts
+								onClick={this.deleteConfirm}
+								className="btn btn-raised btn-danger mr-5"
+							>
+								DELETE POST
+							</button>
+						</div>
+					)}
+
+					<div>
+						{isAuthenticated().user && isAuthenticated().user.role === 'admin' && (
+							<div className="card mt-5">
+								<div className="card-body">
+									<h5 className="card-title">Admin</h5>
+									<p className="mb-2 text-danger">Edit/Delete as an Admin</p>
+									<Link
+										to={`/post/edit/${post._id}`}
+										className="btn btn-raised btn-warning btn-sm mr-5"
+									>
+										Update Post
+									</Link>
+									<button
+										onClick={this.deleteConfirm}
+										className="btn btn-raised btn-danger"
+									>
+										Delete Post
+									</button>
+								</div>
+							</div>
+						)}
+					</div>
+				</div>
 			</div>
 		);
 	};

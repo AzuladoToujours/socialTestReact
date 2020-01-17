@@ -88,8 +88,13 @@ class EditUser extends Component {
 			const token = isAuthenticated().token;
 			//Update the user, then updated the Menu with the new data and redirectToProfile
 			updateUser(userId, token, this.userData).then(data => {
-				if (data.error) this.setState({ error: data.error });
-				else
+				if (data.error) {
+					this.setState({ error: data.error });
+				} else if (isAuthenticated().user.role === 'admin') {
+					this.setState({
+						redirectToProfile: true
+					});
+				} else
 					updateMenu(data, () => {
 						this.setState({
 							redirectToProfile: true

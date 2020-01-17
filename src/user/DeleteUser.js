@@ -5,7 +5,8 @@ import { Redirect } from 'react-router-dom';
 
 class DeleteUser extends Component {
 	state = {
-		redirect: false
+		redirect: false,
+		redirectAdmin: false
 	};
 	deleteAccount = () => {
 		//Get the token in the session
@@ -16,6 +17,10 @@ class DeleteUser extends Component {
 		removeUser(userId, token).then(data => {
 			if (data.error) {
 				console.log(data.error);
+			} else if (isAuthenticated().user && isAuthenticated().user.role) {
+				console.log('User has been deleted');
+				//Redirect
+				this.setState({ redirectAdmin: true });
 			} else {
 				//Signout user, as it takes a next, we just console log
 				signOut(() => console.log('User has been deleted'));
@@ -36,10 +41,12 @@ class DeleteUser extends Component {
 	};
 
 	render() {
-		const { redirect } = this.state;
+		const { redirect, redirectAdmin } = this.state;
 
 		if (redirect) {
 			return <Redirect to={'/'} />;
+		} else if (redirectAdmin) {
+			return <Redirect to={'/admin'} />;
 		} else {
 			return (
 				<button

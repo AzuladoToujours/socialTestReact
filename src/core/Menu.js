@@ -15,7 +15,6 @@ const Menu = props => (
 					Home
 				</Link>
 			</li>
-
 			<li className="nav-item">
 				<Link
 					className="nav-link"
@@ -25,7 +24,6 @@ const Menu = props => (
 					Users
 				</Link>
 			</li>
-
 			{!isAuthenticated() && (
 				</*This is react fragments*/>
 					<li className="nav-item">
@@ -47,6 +45,17 @@ const Menu = props => (
 						</Link>
 					</li>
 				</>
+			)}
+			{isAuthenticated() && isAuthenticated().user.role === 'admin' && (
+				<li className="nav-item">
+					<Link
+						to={`/admin`}
+						style={isActive(props.history, `/admin`)}
+						className="nav-link"
+					>
+						Admin
+					</Link>
+				</li>
 			)}
 
 			{isAuthenticated() && (

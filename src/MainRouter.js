@@ -12,12 +12,14 @@ import FindPeople from './user/FindPeople';
 import NewPost from './post/NewPost';
 import SinglePost from './post/SinglePost';
 import EditPost from './post/EditPost';
+import Admin from './admin/Admin';
 
 const MainRouter = () => (
 	<div>
 		<Menu />
 		<Switch>
 			<Route exact path="/" component={Home}></Route>
+			<PrivateRoute exact path="/admin" component={Admin} />
 			<Route exact path="/users" component={Users}></Route>
 			<Route exact path="/Signup" component={Signup}></Route>
 			<Route exact path="/Signin" component={Signin}></Route>

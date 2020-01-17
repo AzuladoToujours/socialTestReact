@@ -16,9 +16,22 @@ export const createPost = (userId, token, post) => {
 		});
 };
 
-//Make a get request to posts and return the array as a json
-export const listPosts = () => {
-	return fetch(`${process.env.REACT_APP_API_URL}/posts`, {
+// //Make a get request to posts and return the array as a json
+
+// export const listPosts = () => {
+// 	return fetch(`${process.env.REACT_APP_API_URL}/posts`, {
+// 		method: 'GET'
+// 	})
+// 		.then(response => {
+// 			return response.json();
+// 		})
+// 		.catch(err => console.log(err));
+// };
+
+//listPosts with pagination
+// with pagination
+export const listPosts = page => {
+	return fetch(`${process.env.REACT_APP_API_URL}/posts/?page=${page}`, {
 		method: 'GET'
 	})
 		.then(response => {
