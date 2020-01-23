@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { signIn, authenticate } from '../auth/Auth';
 
 class Signin extends Component {
@@ -101,6 +101,13 @@ class Signin extends Component {
 				)}
 
 				{this.signInForm(email, password)}
+
+				<p>
+					<Link to="/forgot-password" className="btn btn-raised btn-danger">
+						{' '}
+						Forgot Password
+					</Link>
+				</p>
 			</div>
 		);
 	}
